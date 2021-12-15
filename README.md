@@ -1,78 +1,84 @@
-# rpicontainer
+# rpicontainer - Docker COntainer for Raspberry Pi with GPIO
 
-# Headless Pi:
+# Set Up Headless Pi
+## SD Card
 - SDCardFormatter -> Quick Format the SD Card
 - Rasperry Pi Imager -> Install Raspbian onto SD Card
 - In "boot" directort, 
   - add a file called SSH
   - Add "ip=192.168.x.x" to the end of the line in cmdline.txt
 
-
-# Run Config
-sudo raspi-config
+## Run Config
+    sudo raspi-config
 
 - WiFi region, ssid, passphrase 
 - Interface ... Turn on i2C, SPI
 
-# Netowork Interface Stuff...
-sudo nano /etc/dhcpcd.conf
+### Network Interface Stuff...
+    sudo nano /etc/dhcpcd.conf
 
-interface eth0
-static ip_address=10.54.40.59/24
-metric 400  --> Higher priority means lower number.
+    interface eth0
+    static ip_address=192.168.x.x/24
+    metric 400  --> Higher priority means lower number.
 
-# install python
-sudo apt update
-sudo apt install python3
+### install python
+    sudo apt update
+    sudo apt install python3
 
-# install git
-sudo apt install git
+### install git
+    sudo apt install git
 
-# install samba
-sudo apt install samba samba-common-bin
-sudo nano /etc/samba/smb.conf
+### Run docker install script
+    curl -sSL https://get.docker.com | sh
+    sudo usermod -aG docker $USER
+    # When you do a reboot, you can just type docker ---.
+    # Alternatively, to make it work in your current session, just type
+    newgrp docker
 
-## Change these lines:
-workgroup = MTT
-wins support = yes 
+### Check if docker is installed correctly
+    sudo docker run hello-world
 
-# Run docker install script
-curl -sSL https://get.docker.com | sh
-sudo usermod -aG docker $USER
-# When you do a reboot, you can just type docker ---.
-# Alternatively, to make it work in your current session, just type
-newgrp docker
+### prepare for project, clone this repo, point to new repo.
+    mkdir myproject
+    git clone https://github.com/djoha/rpicontainer.git
+    git remote set-url origin https://github.com/user/newrepo.git
 
-# Check if docker is installed correctly
+# Editor
+## Open VS COde
+Make sure Remote-SSH Extension is installed
 
-sudo docker run hello-world
+ - Crtl+Shift+P
+ - Remote-SSH: Connect To Host
+ - pi@192.168.x.x
+ - Choose OS (Linux)
+ - Enter Password (default: raspberry)
 
-# prepare for project, clone this repo, point to new repo.
-mkdir myproject
-git clone https://github.com/djoha/rpicontainer.git
-git remote set-url origin https://github.com/djoha/newrepo.git
+## Click "Open Folder"... navigate to repo.
+Note the project structure
 
-# Open VS COde
-Crtl+Shift+P
-Remote-SSH: Connect To Host
-pi@10.54.40.59
-Choose OS
-Enter Password (raspberry)
+    .
+    ├── app
+    │   ├── __init__.py
+    │   └── main.py
+    ├── Dockerfile
+    └── requirements.txt
 
-# Click "Open Folder"... navigate to project folder
+# Run the Container
 
-# Build the Image: First time takes a while
-sudo docker build -t myimage .
+## Build the Image: First time takes a while
+    sudo docker build -t myimage .
 
-# Run the container.  Make sure port matches Dockerfile
-sudo docker run -d --name mycontainer -p 80:80 --restart unless-stopped --privileged myimage
+## Run the container.  Make sure port matches Dockerfile
+    sudo docker run -d --name mycontainer -p 80:80 --restart unless-stopped --privileged myimage
 
-# Stop
-sudo docker stop mycontainer
+## Stop
+    sudo docker stop mycontainer
+## Remove
+    sudo docker rm mycontainer
 
-# Remove
-sudo docker rm mycontainer
+## Check Logs for Trouble Shooting:
+    tail -f /var/log/syslog
+    sudo docker logs mycontainer
 
-# Check Logs for Trouble Shooting:
-tail -f /var/log/syslog
-sudo docker logs mycontainer
+## Check docs page:
+    http://192.168.x.x:80/docs
