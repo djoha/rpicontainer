@@ -1,7 +1,4 @@
-# rpi-ioexpander - Demo with MCP23018-E/SP
-https://www.digikey.ca/en/products/detail/microchip-technology/MCP23018-E-SP/1999505
-
-https://www.digikey.ca/en/products/detail/texas-instruments/CD40109BE/376604
+# rpicontainer - Basid RPi Docker Container with fastAPI / GPIO
 
 # Set Up Headless Pi
 ## SD Card
