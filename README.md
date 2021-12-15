@@ -49,6 +49,7 @@ https://www.digikey.ca/en/products/detail/texas-instruments/CD40109BE/376604
 # Editor
 ## Open VS COde
 Make sure Remote-SSH Extension is installed
+
  - Crtl+Shift+P
  - Remote-SSH: Connect To Host
  - pi@192.168.x.x
@@ -57,6 +58,7 @@ Make sure Remote-SSH Extension is installed
 
 ## Click "Open Folder"... navigate to repo.
 Note the project structure
+
     .
     ├── app
     │   ├── __init__.py
