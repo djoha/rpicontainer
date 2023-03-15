@@ -2,30 +2,18 @@
 
 # Set Up Headless Pi
 ## SD Card
-- SDCardFormatter -> Quick Format the SD Card
-- Rasperry Pi Imager -> Install Raspbian onto SD Card
-- In "boot" directort, 
-  - add a file called SSH
-  - Add "ip=192.168.x.x" to the end of the line in cmdline.txt
+ - Rasperry Pi Imager -> Install Raspbian onto SD Card
+    - Set hostname to something reasonable (rpizax)
+    - Set user and password
+    - Set Wifi SSID and Password
 
 ## Run Config
     sudo raspi-config
+- Interface ... Turn on i2C, SPI if needed
 
-- WiFi region, ssid, passphrase 
-- Interface ... Turn on i2C, SPI
-
-### Network Interface Stuff...
-    sudo nano /etc/dhcpcd.conf
-
-    interface eth0
-    static ip_address=192.168.x.x/24
-    metric 400  --> Higher priority means lower number.
-
-### install python
-    sudo apt update
-    sudo apt install python3
 
 ### install git
+    sudo apt update
     sudo apt install git
 
 ### Run docker install script
@@ -39,8 +27,8 @@
     sudo docker run hello-world
 
 ### prepare for project, clone this repo, point to new repo.
-    mkdir myproject
     git clone https://github.com/djoha/rpicontainer.git
+    mv rpicontainer newrepo
     git remote set-url origin https://github.com/user/newrepo.git
 
 # Editor
@@ -49,9 +37,9 @@ Make sure Remote-SSH Extension is installed
 
  - Crtl+Shift+P
  - Remote-SSH: Connect To Host
- - pi@192.168.x.x
+ - user@hostname
  - Choose OS (Linux)
- - Enter Password (default: raspberry)
+ - Enter Password
 
 ## Click "Open Folder"... navigate to repo.
 Note the project structure
@@ -61,9 +49,12 @@ Note the project structure
     │   ├── __init__.py
     │   └── main.py
     ├── Dockerfile
+    ├── relaunch.sh
     └── requirements.txt
 
 # Run the Container
+## Run the steps listed below
+    ./relaunch.sh
 
 ## Build the Image: First time takes a while
     sudo docker build -t myimage .
@@ -73,6 +64,7 @@ Note the project structure
 
 ## Stop
     sudo docker stop mycontainer
+
 ## Remove
     sudo docker rm mycontainer
 
@@ -81,4 +73,5 @@ Note the project structure
     sudo docker logs mycontainer
 
 ## Check docs page:
-    http://192.168.x.x:80/docs
+    http://hostname/docs
+
