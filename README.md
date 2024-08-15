@@ -11,7 +11,6 @@
     sudo raspi-config
 - Interface ... Turn on i2C, SPI if needed
 
-
 ### install git
     sudo apt update
     sudo apt install git
